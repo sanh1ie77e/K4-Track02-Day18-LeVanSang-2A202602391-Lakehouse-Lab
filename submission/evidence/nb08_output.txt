@@ -1,0 +1,136 @@
+Safety guard active: D:\Phase2.Track2\LABday18 chiều\K4-Track02-Day18-Lakehouse-Lab\_lakehouse\safe_runs\2cf377334e2c40669c70f969d7af914e
+Original lakehouse is excluded; recovery and audit enabled.
+
+Bronze trajectory steps: 1,578
+
+Silver: 1,578 steps, partitioned by agent_version
+  partitions on disk: ['agent_version=policy-v2', 'agent_version=policy-v3']
+
+shape: (2, 7)
+┌──────────────┬──────────────┬──────────────┬───────────┬─────────────┬─────────────┬─────────────┐
+│ agent_versio ┆ trajectories ┆ success_rate ┆ avg_steps ┆ avg_cost_us ┆ total_cost_ ┆ avg_seconds │
+│ n            ┆ ---          ┆ ---          ┆ ---       ┆ d           ┆ usd         ┆ ---         │
+│ ---          ┆ i64          ┆ f64          ┆ f64       ┆ ---         ┆ ---         ┆ f64         │
+│ str          ┆              ┆              ┆           ┆ f64         ┆ f64         ┆             │
+╞══════════════╪══════════════╪══════════════╪═══════════╪═════════════╪═════════════╪═════════════╡
+│ policy-v2    ┆ 150          ┆ 0.76         ┆ 5.26      ┆ 0.06915     ┆ 10.37       ┆ 16.2        │
+│ policy-v3    ┆ 150          ┆ 0.753        ┆ 5.26      ┆ 0.06928     ┆ 10.39       ┆ 15.7        │
+└──────────────┴──────────────┴──────────────┴───────────┴─────────────┴─────────────┴─────────────┘
+
+{
+  "run_id": "rl-run-2026-08-17-001",
+  "policy": "policy-v4",
+  "trajectory_table": "D:\\Phase2.Track2\\LABday18 chi\u1ec1u\\K4-Track02-Day18-Lakehouse-Lab\\_lakehouse\\safe_runs\\2cf377334e2c40669c70f969d7af914e\\silver\\agent_trajectories",
+  "table_version": 0,
+  "n_steps_seen": 1578
+}
+
+
+After more rollouts land — table version 1, 1,978 steps
+Replay at pinned version 0: 1,578 steps
+Matches what training saw: True
+
+That one integer is the difference between a reproducible run and a story.
+
+Catalog now serves: [('lake', 'trajectories')]
+
+  turn 0: cached=False  tables=['lake.trajectories']
+  turn 1: cached=True  tables=['lake.trajectories']
+  turn 2: cached=True  tables=['lake.trajectories']
+  turn 3: cached=True  tables=['lake.trajectories']
+  turn 4: cached=True  tables=['lake.trajectories']
+
+Actual catalog round-trips for 5 agent turns: 1
+tools/list advertises: {'ttlMs': 60000, 'cacheScope': 'session'}
+
+resultType: input_required
+prompt:     Confirm delete_rows({'table': 'lake.trajectories', 'where': 'reward = 0'}) — this cannot be undone by the agent.
+
+after human approval → resultType: ok
+
+Lab limitation: confirmed is supplied by the caller; this is not an authorization boundary.
+
+submit_scan → {'taskId': 'task_0001', 'status': 'working', 'pollAfterMs': 50}
+  tasks/get #0: working
+  tasks/get #1: working
+  tasks/get #2: completed
+  result: {'rows': 300}
+
+The task handle and polling are simulated locally; no background Spark job is submitted.
+
+tool            calls   total ms
+delete_rows         1       0.01
+get_schema          1       5.32
+list_tables         5       2.93
+query               1      16.62
+submit_scan         1       0.02
+
+shape: (5, 3)
+┌────────────────────────┬──────┬──────┐
+│ provenance_bucket      ┆ rows ┆ pct  │
+│ ---                    ┆ ---  ┆ ---  │
+│ str                    ┆ i64  ┆ f64  │
+╞════════════════════════╪══════╪══════╡
+│ licensed               ┆ 675  ┆ 33.8 │
+│ UNCLASSIFIED           ┆ 334  ┆ 16.7 │
+│ public_domain          ┆ 333  ┆ 16.7 │
+│ synthetic              ┆ 331  ┆ 16.6 │
+│ scraped_optout_checked ┆ 327  ┆ 16.4 │
+└────────────────────────┴──────┴──────┘
+
+UNCLASSIFIED rows: 334
+→ UNCLASSIFIED rows fail the lab's classification rule; this is not a legal audit result.
+
+Partitions on disk:
+  provenance_bucket=UNCLASSIFIED
+  provenance_bucket=licensed
+  provenance_bucket=public_domain
+  provenance_bucket=scraped_optout_checked
+  provenance_bucket=synthetic
+
+Rows selected by the lab's training filter: 1,666 / 2,000
+Excluded as UNCLASSIFIED:  334
+
+{
+  "model": "vinuni-rag-v1",
+  "corpus_table": "silver.training_corpus_governed",
+  "corpus_version": 0,
+  "rows_used": 1666,
+  "buckets_used": [
+    "licensed",
+    "public_domain",
+    "scraped_optout_checked",
+    "synthetic"
+  ],
+  "excluded_rows": 334,
+  "exclusion_reason": "license=unknown \u2192 excluded by the lab classification rule"
+}
+
+
+DESCRIBE HISTORY → 1 version(s); v0 written by WRITE
+
+Erasure request from user_007: 8 rows, used as: [{'provenance_bucket': 'synthetic', 'rows': 1}, {'provenance_bucket': 'scraped_optout_checked', 'rows': 1}, {'provenance_bucket': 'UNCLASSIFIED', 'rows': 5}, {'provenance_bucket': 'licensed', 'rows': 1}]
+
+
+Rows for user_007: 8 → 0
+Table version: 0 → 1
+
+Note the tension the slide flags: time travel means v0 STILL contains
+the deleted rows. Removing rows from the current version does not remove old
+physical files. Retention and VACUUM must be considered separately (NB6),
+as must any copies or derived artifacts outside this table.
+
+  [PASS] silver partitioned by agent_version
+  [PASS] gold covers both policies
+  [PASS] pinned version step count matches
+  [PASS] 5 turns → 1 catalog read
+  [PASS] destructive needs confirmation
+  [PASS] confirmed call proceeds
+  [PASS] tasks poll completes
+  [PASS] all 4 lab buckets present
+  [PASS] unclassified rows found
+  [PASS] erasure removed subject rows
+
+NB8 complete.
+
+LAB_METRICS_JSON={"agent_partitions": 2, "policies": 2, "pinned_version": 0, "pinned_steps": 1578, "recorded_steps": 1578, "catalog_reads": 1, "confirmation": "input_required", "task_status": "completed", "partitions": ["provenance_bucket=UNCLASSIFIED", "provenance_bucket=licensed", "provenance_bucket=public_domain", "provenance_bucket=scraped_optout_checked", "provenance_bucket=synthetic"], "unclassified": 334, "trainable": 1666, "subject_before": 8, "subject_after": 0, "subject_old_version": 8}

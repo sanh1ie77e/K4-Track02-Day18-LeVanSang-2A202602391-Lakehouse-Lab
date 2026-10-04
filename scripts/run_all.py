@@ -7,6 +7,7 @@ prove every rubric criterion, and this runner does not save .ipynb outputs.
 from __future__ import annotations
 
 import subprocess
+import os
 import sys
 import time
 from pathlib import Path
@@ -25,7 +26,10 @@ def main() -> int:
     failures, total = [], 0.0
     for nb in notebooks:
         t0 = time.perf_counter()
-        proc = subprocess.run([sys.executable, str(nb)], capture_output=True, text=True)
+        command = [sys.executable, str(nb)]
+        if os.environ.get("LAB_SAFE_MODE") == "1":
+            command = [sys.executable, str(ROOT / "scripts" / "lab_safety.py"), str(nb)]
+        proc = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace")
         dt = time.perf_counter() - t0
         total += dt
         if proc.returncode == 0:

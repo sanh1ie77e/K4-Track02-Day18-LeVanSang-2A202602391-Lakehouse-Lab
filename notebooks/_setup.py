@@ -13,6 +13,7 @@ runner. `__file__` is stable; cwd is not.
 from __future__ import annotations
 
 import sys
+import os
 from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
@@ -21,3 +22,9 @@ _LOCAL = _HERE.parent / "scripts"
 
 _TARGET = _DOCKER if _DOCKER.exists() else _LOCAL
 sys.path.insert(0, str(_TARGET))
+
+# Every lightweight notebook enables safety even when launched directly in Jupyter.
+from lab_safety import create_run, install, preflight
+
+preflight()
+install(os.environ.get("LAKEHOUSE_ROOT") or create_run())

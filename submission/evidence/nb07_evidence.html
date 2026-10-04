@@ -1,0 +1,47 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><title>NB07 — Bằng chứng thực thi</title>
+<style>body{font:15px system-ui;margin:14px;color:#142536;background:#f4f7fb}main{max-width:1400px;margin:auto;background:white;padding:18px;border:1px solid #d1dbe7;border-radius:12px}h1{font-size:25px}table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{text-align:left;padding:6px;border-bottom:1px solid #dde4ed;overflow-wrap:anywhere}th{width:44%}pre{font:13px Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:12px;border-left:4px solid #326caa}.note{color:#526579}</style>
+<main><h1>NB07 — 07_vectors_multimodal</h1><p>LeVanSang · 2A202602391 · K4-Track02-Day18 · lightweight</p>
+<p class="note">Bằng chứng trích từ output đã thực thi bằng Jupyter kernel của .venv. Số liệu không phải ví dụ. Có thể đối chiếu file .ipynb và metrics.json.</p>
+<h2>Số đo trên máy</h2><table><tr><th>amplification</th><td>200.049835</td></tr><tr><th>f32_bytes</th><td>2685240</td></tr><tr><th>int8_bytes</th><td>462727</td></tr><tr><th>storage_ratio</th><td>5.803076</td></tr><tr><th>recall</th><td>0.904</td></tr><tr><th>topic_fidelity</th><td>1.0</td></tr><tr><th>query_topic</th><td>storage</td></tr><tr><th>top_topics</th><td>[&#x27;storage&#x27;, &#x27;storage&#x27;, &#x27;storage&#x27;, &#x27;storage&#x27;, &#x27;storage&#x27;]</td></tr><tr><th>table_hits</th><td>0</td></tr><tr><th>stale_index_hits</th><td>8</td></tr><tr><th>cdf_deletes</th><td>8</td></tr><tr><th>docs</th><td>2000</td></tr><tr><th>dim</th><td>256</td></tr><tr><th>execution_seconds</th><td>7.475442</td></tr></table><h2>Output thực tế</h2><pre>inline parquet: 1 row group(s), 200 rows, 12.5 MB per group
+
+Fetching ONE frame (doc_id=137):
+  inline  → must read the row group: 12.5 MB
+  pointer → one GET of the object:   64.0 KB
+  → amplification: 200× more bytes than needed
+
+At 1,000 random frame fetches/sec to feed a GPU, that amplification IS
+the GPU-starvation problem. Formats like Lance restructure the file so a
+random read costs ~one row, not one row group.</pre><pre>embeddings: 2,000 × 256  (2.0 MB in memory)
+per row: float32 = 1,024 B   int8 = 256 B   (4× smaller)
+at dim=768: float32 = 3,072 B   int8 = 768 B   ← the slide&#x27;s numbers
+
+On disk (Parquet, compressed):
+  float32: 2.6 MB
+  int8   : 451.9 KB   →  5.8× smaller</pre><pre>recall@10 (exact doc IDs), int8 vs float32: 0.904
+topic fidelity of int8 top-10:              1.000
+storage saved: 83%
+
+→ int8 loses ~10% of exact IDs but 100% of results are still
+  on-topic. The &quot;misses&quot; are swaps between near-equivalent neighbours, which
+  is why exact-ID recall UNDERSTATES quantization quality for RAG.
+  Measure both on YOUR corpus before shipping — the trade is corpus-dependent.</pre><pre>Erased docs still retrievable from the lakehouse:      0
+Erased docs still retrievable from the external index: 8   ← VIOLATION
+
+The external index will happily return user_042&#x27;s content to a RAG prompt
+until the next sync — and if the sync is one-way upsert (the common case),
+*forever*, because deletes are the operation sync pipelines forget.
+</pre><pre>CDF rows since v1: 8   deletes: 8
+Delete events carry the doc_ids to evict: [42, 292, 542, 792, 1042] ...
+
+That is the contract: the index subscribes to deletes instead of guessing.
+Best of all is not needing the sync — keep the vector in the row (§2 above)
+and the lifecycle is enforced by the table itself.
+</pre><pre>  [PASS] random-access amplification ≥ 5x
+  [PASS] int8 ≥ 3x smaller
+  [PASS] int8 recall@10 ≥ 0.80
+  [PASS] int8 topic fidelity ≥ 0.95
+  [PASS] top-5 share query topic
+  [PASS] lifecycle bug reproduced
+  [PASS] CDF emits delete events
+
+NB7 complete.</pre></main></html>

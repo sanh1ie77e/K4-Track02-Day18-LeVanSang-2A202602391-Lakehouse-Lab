@@ -1,0 +1,24 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><title>NB05 — Bằng chứng thực thi</title>
+<style>body{font:15px system-ui;margin:14px;color:#142536;background:#f4f7fb}main{max-width:1400px;margin:auto;background:white;padding:18px;border:1px solid #d1dbe7;border-radius:12px}h1{font-size:25px}table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{text-align:left;padding:6px;border-bottom:1px solid #dde4ed;overflow-wrap:anywhere}th{width:44%}pre{font:13px Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:12px;border-left:4px solid #326caa}.note{color:#526579}</style>
+<main><h1>NB05 — 05_iceberg_catalog</h1><p>LeVanSang · 2A202602391 · K4-Track02-Day18 · lightweight</p>
+<p class="note">Bằng chứng trích từ output đã thực thi bằng Jupyter kernel của .venv. Số liệu không phải ví dụ. Có thể đối chiếu file .ipynb và metrics.json.</p>
+<h2>Số đo trên máy</h2><table><tr><th>full_files</th><td>10</td></tr><tr><th>filtered_files</th><td>1</td></tr><tr><th>pruning</th><td>10.0</td></tr><tr><th>metadata_bytes</th><td>144404</td></tr><tr><th>data_bytes</th><td>48419</td></tr><tr><th>metadata_data_ratio</th><td>2.982383</td></tr><tr><th>field_id</th><td>4</td></tr><tr><th>specs</th><td>[1, 2]</td></tr><tr><th>rows</th><td>5500</td></tr><tr><th>execution_seconds</th><td>4.866189</td></tr></table><h2>Output thực tế</h2><pre>Catalog: SqlCatalog   namespaces: [(&#x27;lake&#x27;,)]</pre><pre>Partition spec: [
+  1000: ts_day: day(2)
+]
+
+Note: &#x27;ts_day&#x27; is NOT a column you insert. It is derived from ts.</pre><pre>Files to read, no filter:    10
+Files to read, one-day filter: 1
+→ Pruning ratio: 10×   (target ≥ 5×)
+  rows returned: 500</pre><pre>data/        47.3 KB   (10 parquet files)
+metadata/   141.0 KB   (20 avro + 12 json)
+→ metadata is 298.2% of table size
+
+At 10 rows/file this looks absurd. At 512 MB/file it is ~0.1%.
+Small files punish you TWICE: more data files AND more metadata to plan over.</pre><pre>Field IDs before: [(1, &#x27;event_id&#x27;), (2, &#x27;ts&#x27;), (3, &#x27;model&#x27;), (4, &#x27;latency_ms&#x27;), (5, &#x27;cost_usd&#x27;)]
+Field IDs after : [(1, &#x27;event_id&#x27;), (2, &#x27;ts&#x27;), (3, &#x27;model&#x27;), (4, &#x27;latency_millis&#x27;), (5, &#x27;cost_usd&#x27;), (6, &#x27;tier&#x27;)]
+
+latency_ms → latency_millis kept field_id=4: a rename rewrote NO data.
+Old rows read back with tier=NULL — no backfill, no migration job.</pre><pre>Partition specs in use across data files: [1, 2]
+Total rows readable across BOTH specs: 5,500
+
+Two layouts, one table, zero rewrites. This is the feature.</pre></main></html>

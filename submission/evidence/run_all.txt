@@ -1,0 +1,12 @@
+Running 8 notebooks with D:\Phase2.Track2\LABday18 chiều\K4-Track02-Day18-Lakehouse-Lab\.venv\Scripts\python.exe
+
+  PASS  01_delta_basics.py                  2.5s
+  PASS  02_optimize_zorder.py              44.6s
+  PASS  03_time_travel.py                   2.9s
+  PASS  04_medallion.py                     9.7s
+  PASS  05_iceberg_catalog.py               3.9s
+  PASS  06_maintenance.py                  41.1s
+  PASS  07_vectors_multimodal.py            7.0s
+  PASS  08_agents_provenance.py             3.1s
+
+8/8 passed in 114.9s

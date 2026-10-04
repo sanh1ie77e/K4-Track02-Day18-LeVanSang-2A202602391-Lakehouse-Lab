@@ -13,6 +13,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import os
+from lab_safety import create_run, install, preflight
+
+preflight()
+install(os.environ.get("LAKEHOUSE_ROOT") or create_run())
+
 import numpy as np
 import polars as pl
 import pyarrow as pa

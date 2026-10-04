@@ -1,0 +1,440 @@
+[
+  {
+    "file": "notebooks\\01_delta_basics.py",
+    "line": 23,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\01_delta_basics.py",
+    "line": 35,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\01_delta_basics.py",
+    "line": 69,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\01_delta_basics.py",
+    "line": 56,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\02_optimize_zorder.py",
+    "line": 29,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\02_optimize_zorder.py",
+    "line": 101,
+    "call": "compact",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\02_optimize_zorder.py",
+    "line": 102,
+    "call": "z_order",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\02_optimize_zorder.py",
+    "line": 57,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\03_time_travel.py",
+    "line": 23,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\03_time_travel.py",
+    "line": 36,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\03_time_travel.py",
+    "line": 43,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\03_time_travel.py",
+    "line": 69,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\03_time_travel.py",
+    "line": 97,
+    "call": "restore",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\03_time_travel.py",
+    "line": 53,
+    "call": "merge",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\04_medallion.py",
+    "line": 52,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\04_medallion.py",
+    "line": 83,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\04_medallion.py",
+    "line": 96,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\04_medallion.py",
+    "line": 126,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\04_medallion.py",
+    "line": 129,
+    "call": "z_order",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\05_iceberg_catalog.py",
+    "line": 35,
+    "call": "reset_catalog",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 45,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 127,
+    "call": "compact",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 158,
+    "call": "z_order",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 181,
+    "call": "vacuum",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 186,
+    "call": "vacuum",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 222,
+    "call": "vacuum",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 297,
+    "call": "reset_catalog",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 73,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 261,
+    "call": "remove",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 385,
+    "call": "unlink",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\06_maintenance.py",
+    "line": 338,
+    "call": "expire_snapshots",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 74,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 75,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 76,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 173,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 174,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 175,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 301,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 302,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 317,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 318,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 323,
+    "call": "delete",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 359,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 360,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\07_vectors_multimodal.py",
+    "line": 363,
+    "call": "delete",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\08_agents_provenance.py",
+    "line": 65,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\08_agents_provenance.py",
+    "line": 86,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\08_agents_provenance.py",
+    "line": 111,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\08_agents_provenance.py",
+    "line": 132,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\08_agents_provenance.py",
+    "line": 160,
+    "call": "reset_catalog",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\08_agents_provenance.py",
+    "line": 379,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\08_agents_provenance.py",
+    "line": 385,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "notebooks\\08_agents_provenance.py",
+    "line": 439,
+    "call": "delete",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\lakehouse.py",
+    "line": 32,
+    "call": "rmtree",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\lakehouse.py",
+    "line": 106,
+    "call": "rmtree",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\generate_ai_data.py",
+    "line": 135,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\generate_ai_data.py",
+    "line": 136,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\generate_ai_data.py",
+    "line": 143,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\generate_ai_data.py",
+    "line": 144,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\generate_data_lite.py",
+    "line": 88,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\generate_data_lite.py",
+    "line": 89,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 33,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 35,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 39,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 46,
+    "call": "compact",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 54,
+    "call": "reset",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 55,
+    "call": "write_deltalake",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 57,
+    "call": "delete",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 70,
+    "call": "reset_catalog",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 94,
+    "call": "reset_catalog",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 47,
+    "call": "vacuum",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 148,
+    "call": "rmtree",
+    "control": "isolated root + runtime checks + recovery"
+  },
+  {
+    "file": "scripts\\verify_lite.py",
+    "line": 149,
+    "call": "rmtree",
+    "control": "isolated root + runtime checks + recovery"
+  }
+]

@@ -1,0 +1,66 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><title>NB08 — Bằng chứng thực thi</title>
+<style>body{font:15px system-ui;margin:14px;color:#142536;background:#f4f7fb}main{max-width:1400px;margin:auto;background:white;padding:18px;border:1px solid #d1dbe7;border-radius:12px}h1{font-size:25px}table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{text-align:left;padding:6px;border-bottom:1px solid #dde4ed;overflow-wrap:anywhere}th{width:44%}pre{font:13px Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:12px;border-left:4px solid #326caa}.note{color:#526579}</style>
+<main><h1>NB08 — 08_agents_provenance</h1><p>LeVanSang · 2A202602391 · K4-Track02-Day18 · lightweight</p>
+<p class="note">Bằng chứng trích từ output đã thực thi bằng Jupyter kernel của .venv. Số liệu không phải ví dụ. Có thể đối chiếu file .ipynb và metrics.json.</p>
+<h2>Số đo trên máy</h2><table><tr><th>agent_partitions</th><td>2</td></tr><tr><th>policies</th><td>2</td></tr><tr><th>pinned_version</th><td>0</td></tr><tr><th>pinned_steps</th><td>1578</td></tr><tr><th>recorded_steps</th><td>1578</td></tr><tr><th>catalog_reads</th><td>1</td></tr><tr><th>confirmation</th><td>input_required</td></tr><tr><th>task_status</th><td>completed</td></tr><tr><th>partitions</th><td>[&#x27;provenance_bucket=UNCLASSIFIED&#x27;, &#x27;provenance_bucket=licensed&#x27;, &#x27;provenance_bucket=public_domain&#x27;, &#x27;provenance_bucket=scraped_optout_checked&#x27;, &#x27;provenance_bucket=synthetic&#x27;]</td></tr><tr><th>unclassified</th><td>334</td></tr><tr><th>trainable</th><td>1666</td></tr><tr><th>subject_before</th><td>8</td></tr><tr><th>subject_after</th><td>0</td></tr><tr><th>subject_old_version</th><td>8</td></tr><tr><th>execution_seconds</th><td>4.699211</td></tr></table><h2>Output thực tế</h2><pre>Silver: 1,578 steps, partitioned by agent_version
+  partitions on disk: [&#x27;agent_version=policy-v2&#x27;, &#x27;agent_version=policy-v3&#x27;]</pre><pre>shape: (2, 7)
+┌──────────────┬──────────────┬──────────────┬───────────┬─────────────┬─────────────┬─────────────┐
+│ agent_versio ┆ trajectories ┆ success_rate ┆ avg_steps ┆ avg_cost_us ┆ total_cost_ ┆ avg_seconds │
+│ n            ┆ ---          ┆ ---          ┆ ---       ┆ d           ┆ usd         ┆ ---         │
+│ ---          ┆ i64          ┆ f64          ┆ f64       ┆ ---         ┆ ---         ┆ f64         │
+│ str          ┆              ┆              ┆           ┆ f64         ┆ f64         ┆             │
+╞══════════════╪══════════════╪══════════════╪═══════════╪═════════════╪═════════════╪═════════════╡
+│ policy-v2    ┆ 150          ┆ 0.76         ┆ 5.26      ┆ 0.06915     ┆ 10.37       ┆ 16.2        │
+│ policy-v3    ┆ 150          ┆ 0.753        ┆ 5.26      ┆ 0.06928     ┆ 10.39       ┆ 15.7        │
+└──────────────┴──────────────┴──────────────┴───────────┴─────────────┴─────────────┴─────────────┘</pre><pre>{
+  &quot;run_id&quot;: &quot;rl-run-2026-08-17-001&quot;,
+  &quot;policy&quot;: &quot;policy-v4&quot;,
+  &quot;trajectory_table&quot;: &quot;D:\\Phase2.Track2\\LABday18 chi\u1ec1u\\K4-Track02-Day18-Lakehouse-Lab\\_lakehouse\\safe_runs\\2cf377334e2c40669c70f969d7af914e\\silver\\agent_trajectories&quot;,
+  &quot;table_version&quot;: 0,
+  &quot;n_steps_seen&quot;: 1578
+}
+
+After more rollouts land — table version 1, 1,978 steps
+Replay at pinned version 0: 1,578 steps
+Matches what training saw: True
+
+That one integer is the difference between a reproducible run and a story.</pre><pre>  turn 0: cached=False  tables=[&#x27;lake.trajectories&#x27;]
+  turn 1: cached=True  tables=[&#x27;lake.trajectories&#x27;]
+  turn 2: cached=True  tables=[&#x27;lake.trajectories&#x27;]
+  turn 3: cached=True  tables=[&#x27;lake.trajectories&#x27;]
+  turn 4: cached=True  tables=[&#x27;lake.trajectories&#x27;]
+
+Actual catalog round-trips for 5 agent turns: 1
+tools/list advertises: {&#x27;ttlMs&#x27;: 60000, &#x27;cacheScope&#x27;: &#x27;session&#x27;}</pre><pre>resultType: input_required
+prompt:     Confirm delete_rows({&#x27;table&#x27;: &#x27;lake.trajectories&#x27;, &#x27;where&#x27;: &#x27;reward = 0&#x27;}) — this cannot be undone by the agent.
+
+after human approval → resultType: ok
+
+Lab limitation: confirmed is supplied by the caller; this is not an authorization boundary.</pre><pre>submit_scan → {&#x27;taskId&#x27;: &#x27;task_0001&#x27;, &#x27;status&#x27;: &#x27;working&#x27;, &#x27;pollAfterMs&#x27;: 50}
+  tasks/get #0: working
+  tasks/get #1: working
+  tasks/get #2: completed
+  result: {&#x27;rows&#x27;: 300}
+
+The task handle and polling are simulated locally; no background Spark job is submitted.</pre><pre>tool            calls   total ms
+delete_rows         1       0.01
+get_schema          1       5.32
+list_tables         5       2.93
+query               1      16.62
+submit_scan         1       0.02</pre><pre>Partitions on disk:
+  provenance_bucket=UNCLASSIFIED
+  provenance_bucket=licensed
+  provenance_bucket=public_domain
+  provenance_bucket=scraped_optout_checked
+  provenance_bucket=synthetic
+
+Rows selected by the lab&#x27;s training filter: 1,666 / 2,000
+Excluded as UNCLASSIFIED:  334</pre><pre>Erasure request from user_007: 8 rows, used as: [{&#x27;provenance_bucket&#x27;: &#x27;synthetic&#x27;, &#x27;rows&#x27;: 1}, {&#x27;provenance_bucket&#x27;: &#x27;scraped_optout_checked&#x27;, &#x27;rows&#x27;: 1}, {&#x27;provenance_bucket&#x27;: &#x27;UNCLASSIFIED&#x27;, &#x27;rows&#x27;: 5}, {&#x27;provenance_bucket&#x27;: &#x27;licensed&#x27;, &#x27;rows&#x27;: 1}]
+
+Rows for user_007: 8 → 0
+Table version: 0 → 1
+
+Note the tension the slide flags: time travel means v0 STILL contains
+the deleted rows. Removing rows from the current version does not remove old
+physical files. Retention and VACUUM must be considered separately (NB6),
+as must any copies or derived artifacts outside this table.</pre></main></html>

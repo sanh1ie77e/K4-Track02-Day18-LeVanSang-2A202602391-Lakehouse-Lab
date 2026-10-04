@@ -1,0 +1,52 @@
+Safety guard active: D:\Phase2.Track2\LABday18 chiều\K4-Track02-Day18-Lakehouse-Lab\_lakehouse\safe_runs\2cf377334e2c40669c70f969d7af914e
+Original lakehouse is excluded; recovery and audit enabled.
+
+shape: (3, 4)
+┌─────┬─────────┬─────┬────────┐
+│ id  ┆ name    ┆ age ┆ city   │
+│ --- ┆ ---     ┆ --- ┆ ---    │
+│ i64 ┆ str     ┆ i64 ┆ str    │
+╞═════╪═════════╪═════╪════════╡
+│ 1   ┆ alice   ┆ 30  ┆ Hanoi  │
+│ 2   ┆ bob     ┆ 25  ┆ HCMC   │
+│ 3   ┆ charlie ┆ 35  ┆ Danang │
+└─────┴─────────┴─────┴────────┘
+
+History:
+  v0  WRITE  {'num_added_files': 1, 'num_removed_files': 0, 'num_partitions': 0, 'num_added_rows': 3, 'execution_time_ms': 9, 'num_retries': 0}
+
+BLOCKED by schema enforcement (expected): Exception: Cast error: Cannot cast string 'thirty' to value of Int64 type
+
+shape: (4, 5)
+┌─────┬─────────┬─────┬────────┬─────────┐
+│ id  ┆ name    ┆ age ┆ city   ┆ tier    │
+│ --- ┆ ---     ┆ --- ┆ ---    ┆ ---     │
+│ i64 ┆ str     ┆ i64 ┆ str    ┆ str     │
+╞═════╪═════════╪═════╪════════╪═════════╡
+│ 1   ┆ alice   ┆ 30  ┆ Hanoi  ┆ null    │
+│ 2   ┆ bob     ┆ 25  ┆ HCMC   ┆ null    │
+│ 3   ┆ charlie ┆ 35  ┆ Danang ┆ null    │
+│ 4   ┆ dan     ┆ 28  ┆ Hue    ┆ premium │
+└─────┴─────────┴─────┴────────┴─────────┘
+
+[('premium', 1), (None, 3)]
+
+  [PASS] _delta_log/ has JSON commits
+  [PASS] schema enforcement blocked bad write
+  [PASS] tier column added via schema_mode=merge
+  [PASS] duckdb sees 2 tier groups
+
+NB1 complete.
+
+COMMIT 00000000000000000000.json
+{"commitInfo":{"timestamp":1791105801050,"operation":"WRITE","operationParameters":{"mode":"Overwrite"},"engineInfo":"delta-rs:py-1.6.6","operationMetrics":{"num_added_files":1,"num_removed_files":0,"num_partitions":0,"num_added_rows":3,"execution_time_ms":9,"num_retries":0},"clientVersion":"delta-rs.py-1.6.6"}}
+{"protocol":{"minReaderVersion":1,"minWriterVersion":2}}
+{"metaData":{"id":"cbc709e0-92a4-43d7-ae8e-98be474f97e9","name":null,"description":null,"format":{"provider":"parquet","options":{}},"schemaString":"{\"type\":\"struct\",\"fields\":[{\"name\":\"id\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"name\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"age\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"city\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}","partitionColumns":[],"createdTime":1791105801041,"configuration":{}}}
+{"add":{"path":"part-00000-59e46f06-2f17-46ca-b96e-66c58249b2ce-c000.snappy.parquet","partitionValues":{},"size":1384,"modificationTime":1791105801050,"dataChange":true,"stats":"{\"numRecords\":3,\"minValues\":{\"id\":1,\"name\":\"alice\",\"city\":\"Danang\",\"age\":25},\"maxValues\":{\"id\":3,\"name\":\"charlie\",\"age\":35,\"city\":\"Hanoi\"},\"nullCount\":{\"name\":0,\"id\":0,\"age\":0,\"city\":0}}","tags":null,"baseRowId":null,"defaultRowCommitVersion":null,"clusteringProvider":null}}
+COMMIT 00000000000000000001.json
+{"commitInfo":{"timestamp":1791105801232,"operation":"WRITE","operationParameters":{"mode":"Append"},"engineInfo":"delta-rs:py-1.6.6","operationMetrics":{"num_added_files":1,"num_removed_files":0,"num_partitions":0,"num_added_rows":1,"execution_time_ms":2,"num_retries":0},"clientVersion":"delta-rs.py-1.6.6"}}
+{"metaData":{"id":"cbc709e0-92a4-43d7-ae8e-98be474f97e9","name":null,"description":null,"format":{"provider":"parquet","options":{}},"schemaString":"{\"type\":\"struct\",\"fields\":[{\"name\":\"id\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"name\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"age\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"city\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"tier\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}","partitionColumns":[],"createdTime":1791105801041,"configuration":{}}}
+{"add":{"path":"part-00000-7f8caa0c-0b02-424e-982e-c9560eb7f2d4-c000.snappy.parquet","partitionValues":{},"size":1548,"modificationTime":1791105801232,"dataChange":true,"stats":"{\"numRecords\":1,\"minValues\":{\"id\":4,\"name\":\"dan\",\"tier\":\"premium\",\"age\":28,\"city\":\"Hue\"},\"maxValues\":{\"name\":\"dan\",\"age\":28,\"id\":4,\"city\":\"Hue\",\"tier\":\"premium\"},\"nullCount\":{\"age\":0,\"tier\":0,\"city\":0,\"name\":0,\"id\":0}}","tags":null,"baseRowId":null,"defaultRowCommitVersion":null,"clusteringProvider":null}}
+SCHEMA Schema([Field(id, PrimitiveType("long"), nullable=True), Field(name, PrimitiveType("string"), nullable=True), Field(age, PrimitiveType("long"), nullable=True), Field(city, PrimitiveType("string"), nullable=True), Field(tier, PrimitiveType("string"), nullable=True)])
+
+LAB_METRICS_JSON={"commits": 2, "rows": 4, "tier_groups": [["premium", 1], [null, 3]]}

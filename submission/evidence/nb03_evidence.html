@@ -1,0 +1,12 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><title>NB03 — Bằng chứng thực thi</title>
+<style>body{font:15px system-ui;margin:14px;color:#142536;background:#f4f7fb}main{max-width:1400px;margin:auto;background:white;padding:18px;border:1px solid #d1dbe7;border-radius:12px}h1{font-size:25px}table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{text-align:left;padding:6px;border-bottom:1px solid #dde4ed;overflow-wrap:anywhere}th{width:44%}pre{font:13px Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:12px;border-left:4px solid #326caa}.note{color:#526579}</style>
+<main><h1>NB03 — 03_time_travel</h1><p>LeVanSang · 2A202602391 · K4-Track02-Day18 · lightweight</p>
+<p class="note">Bằng chứng trích từ output đã thực thi bằng Jupyter kernel của .venv. Số liệu không phải ví dụ. Có thể đối chiếu file .ipynb và metrics.json.</p>
+<h2>Số đo trên máy</h2><table><tr><th>versions</th><td>5</td></tr><tr><th>current_version</th><td>4</td></tr><tr><th>restored_rows</th><td>150000</td></tr><tr><th>bad_rows</th><td>0</td></tr><tr><th>execution_seconds</th><td>3.766253</td></tr></table><h2>Output thực tế</h2><pre>MERGE 100K rows: 0.15s</pre><pre>RESTORE → v2: 0.05s   (target &lt; 30s)
+Rows with score&lt;0 after restore: 0  (expected 0)</pre><pre>  v 4  RESTORE
+  v 3  WRITE
+  v 2  MERGE
+  v 1  WRITE
+  v 0  WRITE
+
+Total versions: 5  (target ≥ 5)</pre></main></html>

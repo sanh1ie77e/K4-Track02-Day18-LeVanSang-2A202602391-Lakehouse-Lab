@@ -1,0 +1,45 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><title>NB06 — Bằng chứng thực thi</title>
+<style>body{font:15px system-ui;margin:14px;color:#142536;background:#f4f7fb}main{max-width:1400px;margin:auto;background:white;padding:18px;border:1px solid #d1dbe7;border-radius:12px}h1{font-size:25px}table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{text-align:left;padding:6px;border-bottom:1px solid #dde4ed;overflow-wrap:anywhere}th{width:44%}pre{font:13px Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:12px;border-left:4px solid #326caa}.note{color:#526579}</style>
+<main><h1>NB06 — 06_maintenance</h1><p>LeVanSang · 2A202602391 · K4-Track02-Day18 · lightweight</p>
+<p class="note">Bằng chứng trích từ output đã thực thi bằng Jupyter kernel của .venv. Số liệu không phải ví dụ. Có thể đối chiếu file .ipynb và metrics.json.</p>
+<h2>Số đo trên máy</h2><table><tr><th>files_before</th><td>200</td></tr><tr><th>files_compact</th><td>11</td></tr><tr><th>files_cluster</th><td>10</td></tr><tr><th>candidate_files</th><td>1</td></tr><tr><th>skip_rate</th><td>0.9</td></tr><tr><th>vacuum_bytes</th><td>16905520</td></tr><tr><th>delta_orphans</th><td>3</td></tr><tr><th>orphan_bytes</th><td>21702</td></tr><tr><th>snapshots_before</th><td>20</td></tr><tr><th>snapshots_after</th><td>3</td></tr><tr><th>stranded_lists</th><td>17</td></tr><tr><th>iceberg_reclaimed</th><td>38333</td></tr><tr><th>checkpoint</th><td>True</td></tr><tr><th>delta_rows</th><td>100000</td></tr><tr><th>iceberg_rows</th><td>2000</td></tr><tr><th>execution_seconds</th><td>27.005466</td></tr></table><h2>Output thực tế</h2><pre>AFTER compaction         files=  11  data=  16.1 MB  log= 434.4 KB (201 json)  rows=100,000
+
+filesAdded=11  filesRemoved=200
+File reduction: 200 → 11 (18× fewer)
+Note: data bytes went UP slightly — compaction WRITES new files before
+the old ones are reclaimed. You pay twice, briefly. Budget for it.</pre><pre>Point query user_id=12345
+  before clustering: must open 11/11 files
+  after  clustering: must open 1/10 files
+  → skip rate: 90% of files never touched
+
+Unclustered data has overlapping min/max ranges, so stats prove nothing
+and the engine must read everything. Clustering is what makes stats USEFUL.</pre><pre>VACUUM would reclaim 211 tombstoned files (16.1 MB)
+AFTER vacuum             files=  10  data=   6.2 MB  log= 445.1 KB (204 json)  rows=100,000
+
+Reclaimed: 16.1 MB
+Time travel to v0 is now GONE — that is the trade you just made.</pre><pre>Orphans found: 3  (21.2 KB)
+  part-99990-crashed-writer-c000.snappy.parquet
+  part-99991-crashed-writer-c000.snappy.parquet
+  part-99992-crashed-writer-c000.snappy.parquet
+
+After removal — on disk: 12, in log: 10
+
+⚠️ The age guard is not optional. Without it you will delete files that a
+   concurrent writer has written but not yet committed, and corrupt the table.</pre><pre>JSON log entries a cold reader would replay: 204
+Checkpoint written: 00000000000000000099.checkpoint.parquet
+_last_checkpoint present: True
+
+A reader now loads 1 checkpoint + the few JSONs after it, not all 200.
+For CDC/streaming tables this is the difference between a 200 ms and a
+20 s cold start — and it is why the slide calls it the 5th job.</pre><pre>before expiry  snapshots= 20  avro= 40  json= 21  metadata=356.4 KB</pre><pre>Stranded manifest lists: 17  (37.4 KB)
+  snap-118927611121574763-0-bbcd781e-0faa-44d3-932f-4ac8121021b2.avro
+  snap-1545091857874313850-0-21b6b38f-ff74-495c-ade6-67dd40f604d5.avro
+  snap-2283326913668873726-0-60cb6936-5ba3-4069-a141-b671ac230b0b.avro
+  ... and 14 more
+after sweep    snapshots=  3  avro= 23  json= 22  metadata=327.7 KB
+
+Reclaimed by chaining expiry → orphan removal: 37.4 KB
+Rows still intact: 2,000
+
+→ Job 3 and Job 4 are a PAIR. Running expiry without a sweep is why
+  teams report &#x27;we expire snapshots but the S3 bill never drops&#x27;.</pre></main></html>
